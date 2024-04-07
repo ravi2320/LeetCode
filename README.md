@@ -1,2 +1,2 @@
-# LeetCode-Easy
-"# LeetCode-Easy" 
+# LeetCode-DSA Problems
+"# LeetCode-DSA Problems" 
