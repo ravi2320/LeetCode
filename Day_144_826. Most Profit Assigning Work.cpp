@@ -97,3 +97,56 @@ public:
         return totalProfit;
     }
 };
+
+/*
+Intuition:
+- Each worker should be assigned the most profitable job they can handle.
+- Sort both workers and jobs based on difficulty.
+- Iterate through the workers and for each worker, update the maximum profit they can achieve.
+
+Approach:
+1. Combine the difficulty and profit arrays into a vector of pairs and sort it based on difficulty.
+2. Sort the worker array.
+3. Iterate through each worker, and for each worker, update the maximum profit they can achieve from the jobs available up to their capability.
+
+Time Complexity:
+- Sorting the worker array: O(m log m), where m is the number of workers.
+- Sorting the jobs based on difficulty: O(n log n), where n is the number of jobs.
+- Iterating through workers and jobs: O(m + n).
+
+Space Complexity:
+- O(n) for storing the jobs in a vector of pairs.
+
+*/
+
+class Solution {
+public:
+    int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
+        int n = profit.size();
+        vector<pair<int, int>> jobs(n);
+
+        // Pairing difficulty and profit
+        for (int i = 0; i < n; ++i) {
+            jobs[i] = {difficulty[i], profit[i]};
+        }
+
+        // Sorting jobs by difficulty and workers by capability
+        sort(jobs.begin(), jobs.end());
+        sort(worker.begin(), worker.end());
+
+        int max_profit = 0, ans = 0, j = 0;
+
+        // Iterate through each worker
+        for (int i = 0; i < worker.size(); ++i) {
+            // Update the maximum profit up to the current worker's capability
+            while (j < n && jobs[j].first <= worker[i]) {
+                max_profit = max(max_profit, jobs[j].second);
+                ++j;
+            }
+            ans += max_profit;
+        }
+
+        return ans;
+    }
+};
+
