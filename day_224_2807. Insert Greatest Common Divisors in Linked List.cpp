@@ -82,3 +82,42 @@ public:
         return head;
     }
 };
+
+
+/*
+Approach:
+1. Use recursion to traverse the linked list until reaching the end.
+2. For each pair of consecutive nodes in the recursive return phase, calculate the Greatest Common Divisor (GCD) of their values.
+3. Create a new node with the GCD value and insert it between the current node and the next node during the recursive unwind.
+4. Continue the process until the list is fully traversed and the GCD nodes are inserted.
+
+Time Complexity:
+- O(n): We traverse the list once, and for each node, we compute the GCD, where n is the number of nodes in the list.
+
+Space Complexity:
+- O(n): Due to recursion, the call stack grows linearly with the size of the list, leading to O(n) additional space usage.
+
+*/
+
+class Solution {
+public:
+    ListNode* insertGreatestCommonDivisors(ListNode* head) {
+        // Base case: if the list is empty or contains only one node, return it
+        if (!head || !head->next) {
+            return head;
+        }
+
+        // Recursively insert GCD nodes in the remaining list
+        ListNode* temp = insertGreatestCommonDivisors(head->next);
+
+        // Calculate the GCD of the current node and the next node
+        ListNode* gcdNode = new ListNode(__gcd(head->val, temp->val));
+
+        // Insert the new GCD node between head and temp
+        gcdNode->next = temp;
+        head->next = gcdNode;
+
+        // Return the modified list head
+        return head;
+    }
+};
